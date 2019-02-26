@@ -1,30 +1,39 @@
 import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
-import { addItem } from  './actions/items';
+import { addItem } from './actions/items';
 
 class App extends Component {
-
-  handleOnClick() {
-    this.props.store.dispatch(addItem());
-  }
+  handleOnClick = event => {
+    this.props.addItem();
+  };
 
   render() {
     return (
       <div className="App">
-        <button onClick={(event) => this.handleOnClick(event)}>
-          Click
-          </button>
-        <p>{this.props.items.length}</p>
+        <button onClick={this.handleOnClick}>Click</button>
+        <p>{this.props.items.lenght}</p>
       </div>
     );
   }
-};
+}
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     items: state.items
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    addItem: () => {
+      dispatch(addItem());
+    }
+  };
+};
+
+export default connect(
+  state => ({ items: state.items }),
+  { addItem }
+)(App);
+// ES6 shorthand lets us pass in one value that will be read as the key and value
